@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node : MonoBehaviour
+public class Pathh : MonoBehaviour
 {
     public Color lineColor;
     private List<Transform> nodes = new List<Transform>();
-
-     void OnDrawGizmos()
+    
+     void OnDrawGizmosSelected()
      {
         Gizmos.color = lineColor;
 
@@ -35,12 +35,12 @@ public class Node : MonoBehaviour
                 previousNode = nodes[nodes.Count - 1].position;
             }
 
-            Gizmos.DrawLine(previousNode,currentNode);
+
+            Gizmos.DrawLine(previousNode, currentNode);
             Gizmos.DrawWireSphere(currentNode, 0.5f);
-            
         }
 
-
-     }
+        
+    }
 
 }
