@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pathh : MonoBehaviour
 {
     public Color lineColor;
-    private List<Transform> nodes = new List<Transform>();
+    public List<Transform> nodes = new List<Transform>();
     
      void OnDrawGizmosSelected()
      {
@@ -13,6 +13,7 @@ public class Pathh : MonoBehaviour
 
         Transform[] pathTransform = GetComponentsInChildren<Transform>();
         nodes = new List<Transform>();
+        Debug.Log(nodes);
 
         for (int i = 0; i < pathTransform.Length; i++)
         {
