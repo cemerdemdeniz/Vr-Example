@@ -12,10 +12,25 @@ public class CarEngine : MonoBehaviour
     public float maxMotorTorque = 80f;
     public float currentSpeed;
     public float maxSpeed = 100f;
+    public Vector3 centerOfMass;
 
     private int currentNode = 0;
+    private bool avoiding = false;
+
+
+
+    [Header("Sensors")]
+    public float sensorLength = 4f;
+    public Vector3 frontSensorPosition = new Vector3 (0f,0.2f,0.5f);
+    public float frontSideSensorPosition = 0.2f;
+    public float frontSensorAngle = 30f;
+
+
+
     private void Start()
     {
+        GetComponent<Rigidbody>().centerOfMass = centerOfMass;
+
         Transform[] pathTransform = _path.GetComponentsInChildren<Transform>();
         nodes = new List<Transform>();
 
@@ -34,11 +49,13 @@ public class CarEngine : MonoBehaviour
         ApplySteer();
         Drive();
         CheckWayPointDistance();
+        Sensors();
 
     }
 
     private void ApplySteer()
     {
+        if (avoiding) return;
         Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
         float newSteer = (relativeVector.x / relativeVector.magnitude)*maxSteerAngle;
         wheelFL.steerAngle = newSteer;
@@ -76,6 +93,85 @@ public class CarEngine : MonoBehaviour
                 currentNode++;
             }
         }
+    }
+
+    private void Sensors()
+    {
+        RaycastHit hit;
+        Vector3 sensorsStartPos = transform.position;
+        sensorsStartPos += transform.forward * frontSensorPosition.z;
+        sensorsStartPos += transform.up * frontSensorPosition.y;
+        float avoidingMultiplier = 0;
+        avoiding = false;
+
+
+
+        
+        //front center sensor
+        if (Physics.Raycast(sensorsStartPos,transform.forward,out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("RoadBlock"))
+            {
+                Debug.DrawLine(sensorsStartPos, hit.point);
+                avoiding = true;
+            } 
+            
+        }
+        
+        //front right sensor
+        sensorsStartPos += transform.right * frontSideSensorPosition;
+        if (Physics.Raycast(sensorsStartPos, transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("RoadBlock"))
+            {
+                Debug.DrawLine(sensorsStartPos, hit.point);
+                avoiding = true;
+                avoidingMultiplier -= 1f;
+            }
+        }
+        
+        //front right angle sensor
+        
+       else if (Physics.Raycast(sensorsStartPos, transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("RoadBlock"))
+            {
+                Debug.DrawLine(sensorsStartPos, hit.point);
+                avoiding = true;
+                avoidingMultiplier -= 0.5f;
+
+            }
+        }
+        
+        //front left sensor
+        sensorsStartPos -= transform.right * frontSideSensorPosition * 2;
+        if (Physics.Raycast(sensorsStartPos, Quaternion.AngleAxis(frontSensorAngle,transform.up)*transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("RoadBlock"))
+            {
+                Debug.DrawLine(sensorsStartPos, hit.point);
+                avoiding = true;
+                avoidingMultiplier += 1f;
+            }
+        }
+        
+        //front left angle sensor
+        else if (Physics.Raycast(sensorsStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("RoadBlock"))
+            {
+                Debug.DrawLine(sensorsStartPos, hit.point);
+                avoiding = true;
+                avoidingMultiplier += 0.5f;
+            }
+        }
+        if (avoiding)
+        {
+            wheelFL.steerAngle = maxSteerAngle * avoidingMultiplier;
+            wheelFR.steerAngle = maxSteerAngle * avoidingMultiplier;
+        }
+        
+
     }
 
 
