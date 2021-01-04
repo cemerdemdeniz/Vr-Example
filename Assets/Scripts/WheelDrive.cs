@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System;
 
+
+
+
+
 [Serializable]
 public enum DriveType
 {
@@ -9,12 +13,30 @@ public enum DriveType
 	AllWheelDrive
 }
 
+
+
+
 public class WheelDrive : MonoBehaviour
 {
+	public float currentSpeed = 5.0f;
+	public float maxSpeed = 100f;
+	public WheelCollider wheelFL;
+	public WheelCollider wheelFR;
+	//private float yaw = 0.0f;
+	//private float pitch = 0.0f;
+	public float speedH = 2.0f;
+	public float speedV = 2.0f;
+	public GameObject playerCam;
+	private Vector3 movingDirection = Vector3.zero;
+	
+
+
+
+
 	[Tooltip("Maximum steering angle of the wheels")]
 	public float maxAngle = 30f;
 	[Tooltip("Maximum torque applied to the driving wheels")]
-	public float maxTorque = 300f;
+	public float maxMotorTorque = 300f;
 	[Tooltip("Maximum brake torque applied to the driving wheels")]
 	public float brakeTorque = 30000f;
 	[Tooltip("If you need the visual wheels to be attached automatically, drag the wheel shape here.")]
@@ -35,7 +57,9 @@ public class WheelDrive : MonoBehaviour
 	// Find all the WheelColliders down in the hierarchy.
 	void Start()
 	{
+		playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 		m_Wheels = GetComponentsInChildren<WheelCollider>();
+
 
 		for (int i = 0; i < m_Wheels.Length; ++i)
 		{
@@ -55,56 +79,29 @@ public class WheelDrive : MonoBehaviour
 	// This helps us to figure our which wheels are front ones and which are rear.
 	void Update()
 	{
+
+
+		//yaw += speedH * Input.GetAxis("Mouse X");
+		//pitch -= speedV * Input.GetAxis("Mouse Y");
+		//transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+		//currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 100;
+		//movingDirection = new Vector3(playerCam.transform.forward.x, 0, playerCam.transform.forward.z);
+		//transform.position += movingDirection.normalized * currentSpeed * Time.deltaTime;
 		
-		m_Wheels[0].ConfigureVehicleSubsteps(criticalSpeed, stepsBelow, stepsAbove);
 
-		float angle = maxAngle * Input.GetAxis("Horizontal");
-		float torque = maxTorque * Input.GetAxis("Vertical");
 
-		float handBrake = Input.GetKey(KeyCode.X) ? brakeTorque : 0;
 
-		foreach (WheelCollider wheel in m_Wheels)
+		if (currentSpeed < maxSpeed)
 		{
-			// A simple car where front wheels steer while rear ones drive.
-			if (wheel.transform.localPosition.z > 0)
-				wheel.steerAngle = angle;
-
-			if (wheel.transform.localPosition.z < 0)
-			{
-				wheel.brakeTorque = handBrake;
-			}
-
-			if (wheel.transform.localPosition.z < 0 && driveType != DriveType.FrontWheelDrive)
-			{
-				wheel.motorTorque = torque;
-			}
-
-			if (wheel.transform.localPosition.z >= 0 && driveType != DriveType.RearWheelDrive)
-			{
-				wheel.motorTorque = torque;
-			}
-
-			// Update visual wheels if any.
-			if (wheelShape)
-			{
-				Quaternion q;
-				Vector3 p;
-				wheel.GetWorldPose(out p, out q);
-
-				// Assume that the only child of the wheelcollider is the wheel shape.
-				Transform shapeTransform = wheel.transform.GetChild(0);
-
-				if (wheel.name == "BL" || wheel.name == "FL" || wheel.name == "FR")
-				{
-					shapeTransform.rotation = q * Quaternion.Euler(0, 180, 0);
-					shapeTransform.position = p;
-				}
-				else
-				{
-					shapeTransform.position = p;
-					shapeTransform.rotation = q;
-				}
-			}
+			wheelFL.motorTorque = maxMotorTorque;
+			wheelFR.motorTorque = maxMotorTorque;
 		}
+		else
+		{
+			wheelFL.motorTorque = 0;
+			wheelFR.motorTorque = 0;
+		}
+	
 	}
 }
+
