@@ -1,0 +1,53 @@
+[33mcommit 029addb7d35720109ba334a13a1759f8525e2634[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Mon Jan 4 22:26:41 2021 +0000
+
+    Edit Waypoints
+
+[33mcommit 0d7b05bd36394e23cbdc25a1c421f17041f2786c[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Mon Jan 4 01:55:38 2021 +0000
+
+    Added Avoiding Obstacles
+
+[33mcommit 5be6a87f309879f4775d471bcda6dffda1e14879[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Sun Jan 3 05:32:40 2021 +0000
+
+    Added Car Enemy AI
+
+[33mcommit ff650be7575efd6e72b625ff1696d3da0c6dfd3d[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Sun Jan 3 04:03:51 2021 +0000
+
+    Enemy Car Turning face to waypoint added
+
+[33mcommit dc49bebfd629dcd4eef212535b93feef64786e17[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Sun Jan 3 00:16:07 2021 +0000
+
+    Added road and waypoints
+
+[33mcommit ef10e8d586ad1e1c1bc984f6e1abc347f9e27635[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Sat Jan 2 20:09:43 2021 +0000
+
+    Added Cam Position with moving car
+
+[33mcommit 4ce8721860274ff7656c40dcbdaf06f8d07333f4[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Sat Jan 2 06:05:21 2021 +0000
+
+    Added Scripts Folder
+
+[33mcommit dfaf6cd02954e9dcbec8cabea58024fcd6a560c8[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Sat Jan 2 06:01:29 2021 +0000
+
+    Added Car and Basic Movement
+
+[33mcommit e5e260ba8d087086568b4b48e274d2fed7f924e5[m
+Author: Cem Erdem Deniz <c-e-d@outlook.com.tr>
+Date:   Sat Jan 2 01:22:58 2021 +0000
+
+    Initial Commit
