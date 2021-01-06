@@ -7,6 +7,8 @@ public class WheelMovement : MonoBehaviour
 	// Use this for initialization
 	public float speed, speedCoef;
 	float rotAngle;
+	
+
 
 	Transform parentT;
 
@@ -23,8 +25,9 @@ public class WheelMovement : MonoBehaviour
 	{
 		rotAngle += speed * Time.fixedDeltaTime;
 
-		transform.rotation = parentT.rotation * Quaternion.Euler(0, 90, rotAngle * speedCoef);
+		transform.rotation = parentT.rotation * Quaternion.Euler(0, 0, 0);
 
 	}
+	
 
 }

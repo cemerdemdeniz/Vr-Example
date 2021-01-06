@@ -21,7 +21,7 @@ public class CarEngine : MonoBehaviour
 
     [Header("Sensors")]
     public float sensorLength = 4f;
-    public Vector3 frontSensorPosition = new Vector3 (0f,0.2f,0.5f);
+    public Vector3 frontSensorPosition = new Vector3(0f, 0.2f, 0.5f);
     public float frontSideSensorPosition = 0.2f;
     public float frontSensorAngle = 30f;
 
@@ -43,7 +43,7 @@ public class CarEngine : MonoBehaviour
         }
     }
 
-    
+
     private void FixedUpdate()
     {
         ApplySteer();
@@ -57,7 +57,7 @@ public class CarEngine : MonoBehaviour
     {
         if (avoiding) return;
         Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
-        float newSteer = (relativeVector.x / relativeVector.magnitude)*maxSteerAngle;
+        float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
         wheelFL.steerAngle = newSteer;
         wheelFR.steerAngle = newSteer;
     }
@@ -66,7 +66,7 @@ public class CarEngine : MonoBehaviour
     {
         currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 100;
 
-        if(currentSpeed < maxSpeed)
+        if (currentSpeed < maxSpeed)
         {
             wheelFL.motorTorque = maxMotorTorque;
             wheelFR.motorTorque = maxMotorTorque;
@@ -76,20 +76,21 @@ public class CarEngine : MonoBehaviour
             wheelFL.motorTorque = 0;
             wheelFR.motorTorque = 0;
         }
-        
+
     }
 
     private void CheckWayPointDistance()
     {
         if (Vector3.Distance(transform.position, nodes[currentNode].position) < 0.5f)
         {
-           
-            if(currentNode == nodes.Count - 1)
+
+            if (currentNode == nodes.Count - 1)
             {
                 Debug.Log(currentNode);
                 currentNode = 0;
             }
-            else {
+            else
+            {
                 currentNode++;
             }
         }
@@ -106,18 +107,18 @@ public class CarEngine : MonoBehaviour
 
 
 
-        
+
         //front center sensor
-        if (Physics.Raycast(sensorsStartPos,transform.forward,out hit, sensorLength))
+        if (Physics.Raycast(sensorsStartPos, transform.forward, out hit, sensorLength))
         {
             if (hit.collider.CompareTag("RoadBlock"))
             {
                 Debug.DrawLine(sensorsStartPos, hit.point);
                 avoiding = true;
-            } 
-            
+            }
+
         }
-        
+
         //front right sensor
         sensorsStartPos += transform.right * frontSideSensorPosition;
         if (Physics.Raycast(sensorsStartPos, transform.forward, out hit, sensorLength))
@@ -129,10 +130,10 @@ public class CarEngine : MonoBehaviour
                 avoidingMultiplier -= 1f;
             }
         }
-        
+
         //front right angle sensor
-        
-       else if (Physics.Raycast(sensorsStartPos, transform.forward, out hit, sensorLength))
+
+        else if (Physics.Raycast(sensorsStartPos, transform.forward, out hit, sensorLength))
         {
             if (hit.collider.CompareTag("RoadBlock"))
             {
@@ -142,10 +143,10 @@ public class CarEngine : MonoBehaviour
 
             }
         }
-        
+
         //front left sensor
         sensorsStartPos -= transform.right * frontSideSensorPosition * 2;
-        if (Physics.Raycast(sensorsStartPos, Quaternion.AngleAxis(frontSensorAngle,transform.up)*transform.forward, out hit, sensorLength))
+        if (Physics.Raycast(sensorsStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength))
         {
             if (hit.collider.CompareTag("RoadBlock"))
             {
@@ -154,7 +155,7 @@ public class CarEngine : MonoBehaviour
                 avoidingMultiplier += 1f;
             }
         }
-        
+
         //front left angle sensor
         else if (Physics.Raycast(sensorsStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength))
         {
@@ -170,7 +171,7 @@ public class CarEngine : MonoBehaviour
             wheelFL.steerAngle = maxSteerAngle * avoidingMultiplier;
             wheelFR.steerAngle = maxSteerAngle * avoidingMultiplier;
         }
-        
+
 
     }
 
