@@ -33,12 +33,14 @@ public class CarEngine : MonoBehaviour
 
         Transform[] pathTransform = _path.GetComponentsInChildren<Transform>();
         nodes = new List<Transform>();
+        
 
         for (int i = 0; i < pathTransform.Length; i++)
         {
             if (pathTransform[i] != _path.transform)
             {
                 nodes.Add(pathTransform[i]);
+                
             }
         }
     }
@@ -50,6 +52,7 @@ public class CarEngine : MonoBehaviour
         Drive();
         CheckWayPointDistance();
         Sensors();
+        Debug.Log(currentNode);
 
     }
 

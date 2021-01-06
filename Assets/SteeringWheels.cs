@@ -1,7 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class SteeringWheel : MonoBehaviour
+public class SteeringWheels : MonoBehaviour
+
+    
 {
 
 	// Use this for initialization
@@ -20,8 +23,9 @@ public class SteeringWheel : MonoBehaviour
 	void FixedUpdate()
 	{
 
-		transform.rotation = parentT.rotation * Quaternion.Euler(-73 - rotAngle * rotCoef, 0, 0);
+		transform.rotation = parentT.rotation * Quaternion.Euler(0, 0, 0 );
 
 	}
 
 }
+
