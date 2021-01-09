@@ -14,9 +14,7 @@ public class WheelMovement : MonoBehaviour
 
 	void Start()
 	{
-		rotAngle = 0;
-		speed = 0;
-		speedCoef = 25;
+		
 		parentT = transform.parent.transform;
 	}
 
@@ -24,6 +22,7 @@ public class WheelMovement : MonoBehaviour
 	void FixedUpdate()
 	{
 		rotAngle += speed * Time.fixedDeltaTime;
+		
 
 		transform.rotation = parentT.rotation * Quaternion.Euler(0, 0, 0);
 

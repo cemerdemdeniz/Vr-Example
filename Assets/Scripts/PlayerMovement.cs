@@ -133,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
 
 	// Use this for initialization
 
-	public float[] alpha;
+	public float[] rotatePoint;
 	public float relYAngle;
 	public float moveCoef;
 	public float rotateCoef;
@@ -220,25 +220,25 @@ public class PlayerMovement : MonoBehaviour
 			relYAngle = relativeHeadRotation[1];
 
 			// move forward 
-			if ((relYAngle > alpha[1] && relYAngle < 360.0f) || (relYAngle >= 0.0f && relYAngle < alpha[2]))
+			if ((relYAngle > rotatePoint[1] && relYAngle < 360.0f) || (relYAngle >= 0.0f && relYAngle < rotatePoint[2]))
 			{
-				moveCar(1);
+				MoveCar(1);
 			}
 
-			else if (relYAngle > alpha[0] && relYAngle < alpha[1])
+			else if (relYAngle > rotatePoint[0] && relYAngle < rotatePoint[1])
 			{
-				moveCar(1);
-				rotateCar(-Mathf.Pow(-relYAngle + alpha[1], 0.5f));
+				MoveCar(1);
+				RotateCar(-Mathf.Pow(-relYAngle + rotatePoint[1], 0.5f));
 			}
-			else if (relYAngle > alpha[2] && relYAngle < alpha[3])
+			else if (relYAngle > rotatePoint[2] && relYAngle < rotatePoint[3])
 			{
-				moveCar(1);
-				rotateCar(Mathf.Pow(relYAngle - alpha[2], 0.5f));
+				MoveCar(1);
+				RotateCar(Mathf.Pow(relYAngle - rotatePoint[2], 0.5f));
 			}
 
-			else if (relYAngle > alpha[4] && relYAngle < alpha[5])
+			else if (relYAngle > rotatePoint[4] && relYAngle < rotatePoint[5])
 			{
-				moveCar(-1);
+				MoveCar(-1);
 			}
 			/*else
 			{
@@ -249,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-		moveWheels();
+		MoveWheels();
 		Drive();
 		
 
@@ -273,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 
-	void moveCar(float pow)
+	void MoveCar(float pow)
 	{
 		if (checkTrigger == true)
 		{
@@ -284,7 +284,7 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 
-	void moveWheels()
+	void MoveWheels()
 	{
 		for (int ii = 0; ii <= 3; ii++)
 		{
@@ -293,12 +293,16 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 
-	void rotateCar(float pow)
+	void RotateCar(float pow)
 	{
+		Debug.Log("-------");
+		Debug.Log(pow);
+
+
 
 		carBody.MoveRotation(Quaternion.Euler(0, pow * rotateCoef, 0) * transform.rotation);
 		// rotate Steering wheel
-		//steeringW.rotAngle = pow;
+		steeringW.rotAngle = pow;
 
 	}
 
@@ -317,7 +321,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-	void restart()
+	void Restart()
 	{
 		Application.LoadLevel(Application.loadedLevel);
 	}
