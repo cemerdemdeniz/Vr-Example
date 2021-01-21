@@ -1,128 +1,4 @@
-﻿//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-
-
-
-
-
-//{
-
-//    public float currentSpeed = 5f;
-//    public WheelCollider wheelFL;
-//    public WheelCollider wheelFR;
-//    public float maxSpeed = 100f;
-//    public float maxMotorTorque = 150f;
-//    Rigidbody playerRigid;
-//    Vector3 headRotVec;
-//    public float rotateYangle;
-//    public float[] rotatePoint;
-//    public float rotateCoaf = 0.4f;
-//    public float moveCoaf;
-//    public Transform headCam;
-//    float carSpeed;
-//    public bool checkTrigger;
-//    bool canMove;
-
-//    //elapsed is used to detect the time between clicks
-//    float elapsed = 0;
-
-//    // Start is called before the first frame update
-//    void Start()
-//    {
-//        playerRigid = GetComponent<Rigidbody>();
-//    }
-
-//    // Update is called once per frame
-//    void FixedUpdate()
-//    {
-//        headRotVec = headCam.transform.rotation.eulerAngles - transform.spe.eulerAngles;
-//        HeadRotateCalculate();
-//        canMove = true;
-//        checkTrigger = false;
-
-//    }
-
-//    private void Drive(float pow)
-//    {
-//        playerRigid.AddForce(transform.forward * pow * moveCoaf);
-//        //currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 100;
-
-//        //if (currentSpeed < maxSpeed)
-//        //{
-//        //    wheelFL.motorTorque = maxMotorTorque;
-//        //    wheelFR.motorTorque = maxMotorTorque;
-//        //}
-//        //else
-//        //{
-//        //    wheelFL.motorTorque = 0;
-//        //    wheelFR.motorTorque = 0;
-//        //}
-
-
-
-
-//    }
-//    private void HeadRotateCalculate()
-//    {
-
-//        if (Input.GetMouseButton(0) == true || Input.GetButton("Fire1") == true && elapsed > 0.5f)
-//        {
-//            elapsed = 0;
-
-
-//            if (checkTrigger == true)
-//            {
-//                checkTrigger = false;
-//            }
-//            else
-//            {
-//                checkTrigger = true;
-//            }
-//        }
-
-//        if (headRotVec[0] < 0)
-//        {
-//            headRotVec = headRotVec + 360 * new Vector3(0, 1, 0);
-//        }
-//        rotateYangle = headRotVec[0];
-
-//        if ((rotateYangle > rotatePoint[0] && rotateYangle < 360.0f) || (rotateYangle >= 0.0f && rotateYangle < rotatePoint[1]))
-//        {
-
-
-//            Drive(1);
-
-//        }
-//        else if (rotateYangle > rotatePoint[1] && rotateYangle < rotatePoint[1])
-//        {
-//            Drive(1);
-//            RotationOfCar(-Mathf.Pow(-rotateYangle + rotatePoint[0], 0.5f));
-//        }
-//        else if (rotateYangle>rotatePoint[2] && rotateYangle < rotatePoint[2])
-//        {
-//            Drive(1);
-//            RotationOfCar(Mathf.Pow(rotateYangle - rotatePoint[1], 0.5f));
-//        }
-//        else if(rotateYangle > rotatePoint[3] && rotateYangle < rotatePoint[4])
-//        {
-//            Drive(-1);
-//        }
-//    }
-
-
-
-
-//    private void RotationOfCar (float pow)
-//    {
-//        playerRigid.MoveRotation(Quaternion.Euler(0, pow * moveCoaf, 0) * transform.rotation);
-
-//    }
-
-
-
-//}
+﻿
 
 
 using UnityEngine;
@@ -162,10 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
 	void Start()
 	{
-
-
-		// carboard head contains the rotation of the player (where the player is looking at)
-
+						
 		carBody = GetComponent<Rigidbody>();
 		canMove = true;
 		checkTrigger = false;
@@ -179,35 +52,9 @@ public class PlayerMovement : MonoBehaviour
 	{
 		elapsed += Time.fixedDeltaTime;
 
-		// obtain speed of the car
 		carSpeed = carBody.velocity.magnitude;
-
-
-		// the angle between the car and the head is obtained
 		relativeHeadRotation = head.transform.rotation.eulerAngles - transform.rotation.eulerAngles;
-
-		//standard value [0-360]
-
-
-
-
-		//if (Input.GetMouseButton(0) == true || Input.GetButton("Fire1") == true && elapsed > 0.5f)
-		//{
-		//	elapsed = 0;
-
-
-		//	if (checkTrigger == true)
-		//	{
-		//		checkTrigger = false;
-		//	}
-		//	else
-		//	{
-		//		checkTrigger = true;
-		//	}
-		//}
-
-		//float v=Input.GetAxis("Vertical");
-
+	
 		// Movemnt of the car in function 
 		if (canMove == true)
 		{
@@ -240,10 +87,7 @@ public class PlayerMovement : MonoBehaviour
 			{
 				MoveCar(-1);
 			}
-			/*else
-			{
-				moveCar(0);
-			}*/
+			
 
 		}
 
@@ -279,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			carBody.AddForce(transform.forward * pow * moveCoef);
 		}
-		//carBody.MovePosition(transform.position+transform.forward*pow*moveCoef);
+		
 
 	}
 
